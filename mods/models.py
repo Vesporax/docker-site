@@ -74,6 +74,10 @@ class Category(models.Model):
     """Admin-managed categories for mod classification"""
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True)
+    parent = models.ForeignKey(
+        'self', null=True, blank=True,
+        on_delete=models.CASCADE, related_name='subcategories'
+    )
     description = models.TextField(blank=True)
     icon = models.ImageField(upload_to=categoryIconPath, blank=True, null=True)
     banner = models.ImageField(upload_to=categoryBannerPath, blank=True, null=True)
