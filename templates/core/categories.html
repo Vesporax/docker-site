@@ -5,15 +5,93 @@
 
 {% block extra_css %}
 <style>
-/* Categories Grid Styles */
-.categories-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
+.categories-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
     margin-bottom: 2rem;
 }
 
-.category-card {
+.category-accordion-item {
+    border: 1px solid #444;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.light-mode .category-accordion-item {
+    border-color: #ddd;
+}
+
+.category-accordion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+}
+
+.category-accordion-header:hover {
+    background-color: rgba(255, 215, 0, 0.08);
+}
+
+.light-mode .category-accordion-header:hover {
+    background-color: rgba(255, 102, 0, 0.06);
+}
+
+.category-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.category-header-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.category-header-count {
+    font-size: 0.85rem;
+    opacity: 0.6;
+}
+
+.category-accordion-arrow {
+    font-size: 0.9rem;
+    transition: transform 0.3s ease;
+    opacity: 0.7;
+}
+
+.category-accordion-item.active .category-accordion-arrow {
+    transform: rotate(180deg);
+}
+
+.category-accordion-panel {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.4s ease;
+    padding: 0 20px;
+}
+
+.category-accordion-item.active .category-accordion-panel {
+    max-height: 2000px;
+    opacity: 1;
+    padding: 0 20px 20px;
+}
+
+/* Grille des sous-catégories, reprend le style de carte d'origine */
+.subcategory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.subcategory-card {
     border: 1px solid #444;
     border-radius: 8px;
     overflow: hidden;
@@ -21,100 +99,90 @@
     position: relative;
 }
 
-.light-mode .category-card {
+.light-mode .subcategory-card {
     border-color: #ddd;
 }
 
-.category-card:hover {
-    transform: translateY(-5px);
+.subcategory-card:hover {
+    transform: translateY(-4px);
 }
 
-.category-banner-wrapper {
+.subcategory-banner-wrapper {
     position: relative;
     width: 100%;
-    height: 200px;
+    height: 140px;
     overflow: hidden;
     background-color: #333;
 }
 
-.light-mode .category-banner-wrapper {
+.light-mode .subcategory-banner-wrapper {
     background-color: #f0f0f0;
 }
 
-.category-banner {
+.subcategory-banner {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.category-icon {
+.subcategory-icon {
     position: absolute;
-    bottom: 10px;
-    right: 10px;
-    width: 80px;
-    height: 80px;
+    bottom: 8px;
+    right: 8px;
+    width: 56px;
+    height: 56px;
     object-fit: contain;
     background-color: rgba(0, 0, 0, 0.7);
-    padding: 8px;
-    border-radius: 8px;
+    padding: 6px;
+    border-radius: 6px;
     border: 2px solid #ffd700;
 }
 
-.light-mode .category-icon {
+.light-mode .subcategory-icon {
     background-color: rgba(255, 255, 255, 0.9);
     border-color: #ff6600;
 }
 
-.category-placeholder {
+.subcategory-placeholder {
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #666;
-    font-size: 3rem;
+    font-size: 2.2rem;
     opacity: 0.3;
 }
 
-.category-info {
-    padding: 15px;
+.subcategory-info {
+    padding: 12px;
 }
 
-.category-info h3 {
-    margin-bottom: 10px;
+.subcategory-info h4 {
+    margin-bottom: 8px;
 }
 
-.category-info h3 a {
+.subcategory-info h4 a {
     text-decoration: none;
 }
 
-.category-description {
-    font-size: 0.9rem;
+.subcategory-description {
+    font-size: 0.85rem;
     opacity: 0.7;
-    margin-bottom: 10px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    margin-bottom: 8px;
 }
 
-.category-stats {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    font-size: 0.9rem;
-}
-
-.category-mod-count {
+.subcategory-mod-count {
+    display: inline-block;
     background-color: #ffd700;
     color: #000;
-    padding: 4px 12px;
+    padding: 3px 10px;
     border-radius: 12px;
+    font-size: 0.85rem;
     font-weight: 500;
 }
 
-.light-mode .category-mod-count {
+.light-mode .subcategory-mod-count {
     background-color: #ff6600;
     color: #fff;
 }
@@ -134,56 +202,54 @@
     </div>
 
     {% if categories %}
-        <div class="categories-grid">
+        <div class="categories-list">
             {% for category in categories %}
-                <div class="category-card">
-                    <a href="{% url 'mods:by_category' category.slug %}" class="category-link">
-                        <div class="category-banner-wrapper">
-                            {% if category.banner %}
-                                <img src="{{ category.banner.url }}" alt="{{ category.name }} banner" class="category-banner">
-                            {% else %}
-                                <div class="category-placeholder">📁</div>
-                            {% endif %}
-                            
-                            {% if category.icon %}
-                                <img src="{{ category.icon.url }}" alt="{{ category.name }} icon" class="category-icon">
-                            {% endif %}
+                <div class="category-accordion-item">
+                    <button type="button" class="category-accordion-header" aria-expanded="false">
+                        <div class="category-header-left">
+                            <span class="category-header-name">{{ category.name }}</span>
+                            <span class="category-header-count">{{ category.mod_count }} mod{{ category.mod_count|pluralize }}</span>
                         </div>
-                    </a>
-                    
-                    <div class="category-info">
-                        <h3><a href="{% url 'mods:by_category' category.slug %}">{{ category.name }}</a></h3>
-                        {% if category.description %}
-                            <p class="category-description">{{ category.description }}</p>
+                        <span class="category-accordion-arrow">▼</span>
+                    </button>
+                    <div class="category-accordion-panel">
+                        {% if category.subcategories.all %}
+                            <div class="subcategory-grid">
+                                {% for sub in category.subcategories.all %}
+                                    <div class="subcategory-card">
+                                        <a href="{% url 'mods:by_category' sub.slug %}" class="category-link">
+                                            <div class="subcategory-banner-wrapper">
+                                                {% if sub.banner %}
+                                                    <img src="{{ sub.banner.url }}" alt="{{ sub.name }} banner" class="subcategory-banner">
+                                                {% else %}
+                                                    <div class="subcategory-placeholder">📁</div>
+                                                {% endif %}
+
+                                                {% if sub.icon %}
+                                                    <img src="{{ sub.icon.url }}" alt="{{ sub.name }} icon" class="subcategory-icon">
+                                                {% endif %}
+                                            </div>
+                                        </a>
+
+                                        <div class="subcategory-info">
+                                            <h4><a href="{% url 'mods:by_category' sub.slug %}">{{ sub.name }}</a></h4>
+                                            {% if sub.description %}
+                                                <p class="subcategory-description">{{ sub.description }}</p>
+                                            {% endif %}
+                                            <span class="subcategory-mod-count">{{ sub.mod_count }} mod{{ sub.mod_count|pluralize }}</span>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p>
+                                <a href="{% url 'mods:by_category' category.slug %}">Voir les mods de cette catégorie</a>
+                            </p>
                         {% endif %}
-                        <div class="category-stats">
-                            <span class="category-mod-count">{{ category.mod_count }} mod{{ category.mod_count|pluralize }}</span>
-                        </div>
                     </div>
                 </div>
             {% endfor %}
         </div>
-
-        <!-- Pagination -->
-        {% if is_paginated %}
-            <div class="pagination-container">
-                <div class="pagination">
-                    {% if page_obj.has_previous %}
-                        <a href="?page=1" class="btn btn-outline">Début</a>
-                        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline">Précédent</a>
-                    {% endif %}
-                    
-                    <span class="page-info">
-                        Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
-                    </span>
-                    
-                    {% if page_obj.has_next %}
-                        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline">Suivant</a>
-                        <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-outline">Fin</a>
-                    {% endif %}
-                </div>
-            </div>
-        {% endif %}
     {% else %}
         <div class="no-categories">
             <p>Aucune catégorie disponible pour l'instant.</p>
@@ -194,4 +260,24 @@
         </div>
     {% endif %}
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.category-accordion-header').forEach(function (header) {
+        header.addEventListener('click', function () {
+            var item = header.closest('.category-accordion-item');
+            var isActive = item.classList.contains('active');
+
+            document.querySelectorAll('.category-accordion-item.active').forEach(function (openItem) {
+                if (openItem !== item) openItem.classList.remove('active');
+            });
+
+            item.classList.toggle('active', !isActive);
+            header.setAttribute('aria-expanded', String(!isActive));
+        });
+    });
+});
+</script>
 {% endblock %}

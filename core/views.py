@@ -34,19 +34,25 @@ class FeaturedView(ListView):
 
 
 class CategoriesView(ListView):
-    """Page de toutes les catégories"""
+    """Page de toutes les catégories (niveau parent uniquement)"""
     model = Category
     template_name = 'core/categories.html'
     context_object_name = 'categories'
-    paginate_by = 12
 
     def get_queryset(self):
-        return Category.objects.all().prefetch_related('mods')
+        return Category.objects.filter(
+            parent__isnull=True
+        ).prefetch_related('subcategories__mods', 'mods')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         for category in context['categories']:
-            category.mod_count = category.mods.filter(status='approved').count()
+            direct_count = category.mods.filter(status='approved').count()
+            sub_total = 0
+            for sub in category.subcategories.all():
+                sub.mod_count = sub.mods.filter(status='approved').count()
+                sub_total += sub.mod_count
+            category.mod_count = direct_count + sub_total
         return context
 
 
