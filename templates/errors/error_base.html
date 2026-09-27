@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Erreur {{ error_code }} - RoyalMods{% endblock %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 4rem auto; text-align: center;">
+    <h1 style="font-size: 5rem; margin-bottom: 0.5rem; opacity: 0.3;">{{ error_code }}</h1>
+    <h2 style="margin-bottom: 1.5rem;">{% block error_title %}Une erreur est survenue{% endblock %}</h2>
+
+    <div style="background-color: #111; border-radius: 12px; padding: 2rem; margin-bottom: 2rem; text-align: left;">
+        <p style="margin-bottom: 1rem;">
+            Quelque chose s'est mal passé. Si cela se reproduit, copiez ce texte et envoyez-le au support.
+        </p>
+
+        <textarea id="error-info"
+                  readonly
+                  style="width: 100%; min-height: 100px; background-color: #1a1a1a; color: #ccc;
+                         border: 1px solid #444; border-radius: 6px; padding: 12px;
+                         font-family: monospace; font-size: 13px; resize: vertical;"
+        >{{ error_info }}</textarea>
+
+        <button onclick="copyErrorInfo()"
+                id="copy-btn"
+                style="margin-top: 0.75rem; padding: 8px 18px; background-color: #ffd700;
+                       color: #000; border: none; border-radius: 6px; cursor: pointer;
+                       font-weight: 600; font-size: 14px;">
+            📋 Copier le texte
+        </button>
+    </div>
+
+    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+        <a href="/" class="btn btn-primary">Retour à l'accueil</a>
+        <a href="javascript:history.back()" class="btn btn-secondary">Page précédente</a>
+    </div>
+</div>
+
+<script>
+function copyErrorInfo() {
+    const textarea = document.getElementById('error-info');
+    textarea.select();
+    textarea.setSelectionRange(0, 99999);
+
+    navigator.clipboard.writeText(textarea.value).then(function() {
+        const btn = document.getElementById('copy-btn');
+        btn.textContent = '✅ Copié !';
+        setTimeout(() => { btn.textContent = '📋 Copier le texte'; }, 2000);
+    }).catch(function() {
+        document.execCommand('copy');
+        const btn = document.getElementById('copy-btn');
+        btn.textContent = '✅ Copié !';
+        setTimeout(() => { btn.textContent = '📋 Copier le texte'; }, 2000);
+    });
+}
+</script>
+{% endblock %}

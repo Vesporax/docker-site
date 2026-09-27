@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Games - RoyalMods{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Games Grid Styles - Same as categories */
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 2rem;
+}
+
+.game-card {
+    border: 1px solid #444;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    position: relative;
+}
+
+.light-mode .game-card {
+    border-color: #ddd;
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
+}
+
+.game-banner-wrapper {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    background-color: #333;
+}
+
+.light-mode .game-banner-wrapper {
+    background-color: #f0f0f0;
+}
+
+.game-banner {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.game-icon {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 8px;
+    border-radius: 8px;
+    border: 2px solid #ffd700;
+}
+
+.light-mode .game-icon {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-color: #ff6600;
+}
+
+.game-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-size: 3rem;
+    opacity: 0.3;
+}
+
+.game-info {
+    padding: 15px;
+}
+
+.game-info h3 {
+    margin-bottom: 10px;
+}
+
+.game-info h3 a {
+    text-decoration: none;
+}
+
+.game-stats {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 0.9rem;
+}
+
+.game-mod-count {
+    background-color: #ffd700;
+    color: #000;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.light-mode .game-mod-count {
+    background-color: #ff6600;
+    color: #fff;
+}
+
+.no-games {
+    text-align: center;
+    padding: 3rem 0;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="games-page">
+    <div class="page-header">
+        <h1>Parcourir les jeux</h1>
+        <p>Trouvez des mods pour vos jeux préférés</p>
+    </div>
+
+    {% if games %}
+        <div class="games-grid">
+            {% for game in games %}
+                <div class="game-card">
+                    <a href="{% url 'mods:by_game' game.slug %}" class="game-link">
+                        <div class="game-banner-wrapper">
+                            {% if game.banner %}
+                                <img src="{{ game.banner.url }}" alt="{{ game.name }} banner" class="game-banner">
+                            {% else %}
+                                <div class="game-placeholder">🎮</div>
+                            {% endif %}
+                            
+                            {% if game.icon %}
+                                <img src="{{ game.icon.url }}" alt="{{ game.name }} icon" class="game-icon">
+                            {% endif %}
+                        </div>
+                    </a>
+                    
+                    <div class="game-info">
+                        <h3><a href="{% url 'mods:by_game' game.slug %}">{{ game.name }}</a></h3>
+                        <div class="game-stats">
+                            <span class="game-mod-count">{{ game.mod_count }} mod{{ game.mod_count|pluralize }}</span>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if is_paginated %}
+            <div class="pagination-container">
+                <div class="pagination">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1" class="btn btn-outline">Début</a>
+                        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline">Précédent</a>
+                    {% endif %}
+                    
+                    <span class="page-info">
+                        Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
+                    </span>
+                    
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline">Suivant</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-outline">Fin</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="no-games">
+            <p>Aucun jeu disponible pour l'instant.</p>
+            {% if user.is_staff %}
+                <p>En tant qu'administrateur, vous pouvez ajouter des jeux via le panneau d'administration.</p>
+                <a href="/admin/mods/game/add/" class="btn btn-primary">Ajouter un jeu</a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

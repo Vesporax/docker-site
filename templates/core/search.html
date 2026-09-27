@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block title %}Recherche - RoyalMods{% endblock %}
+
+{% block content %}
+<div class="search-page">
+    <div class="page-header">
+        <h1>Recherche</h1>
+        {% if query %}
+            <p>Résultats pour « {{ query }} »</p>
+        {% else %}
+            <p>Utilisez les filtres pour trouver des mods</p>
+        {% endif %}
+    </div>
+
+    <!-- Filtres de recherche avancée -->
+    <div class="search-filters">
+        <form method="get" class="filters-form">
+            <div class="filter-group">
+                <input type="text" name="q" value="{{ query }}" placeholder="Rechercher des mods…" class="filter-input">
+            </div>
+
+            <div class="filter-group">
+                <select name="game" class="filter-select">
+                    <option value="">Tous les jeux</option>
+                    {% for game in games %}
+                        <option value="{{ game.slug }}" {% if selected_game == game.slug %}selected{% endif %}>
+                            {{ game.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <select name="category" class="filter-select">
+                    <option value="">Toutes les catégories</option>
+                    {% for category in categories %}
+                        <option value="{{ category.slug }}" {% if selected_category == category.slug %}selected{% endif %}>
+                            {{ category.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Rechercher</button>
+        </form>
+    </div>
+
+    <!-- Résultats -->
+    {% if search_results %}
+        <div class="search-results-count">
+            <p>{{ total_count }} mod{{ total_count|pluralize }} trouvé{{ total_count|pluralize }}</p>
+        </div>
+
+        <div class="mods-grid">
+            {% for mod in search_results %}
+                <div class="mod-card">
+                    <div class="mod-images">
+                        {% if mod.images.first %}
+                            <img src="{{ mod.images.first.image.url }}" alt="{{ mod.name }}" class="mod-main-image">
+                            {% if mod.images.count > 1 %}
+                                <div class="mod-thumbnails">
+                                    {% for image in mod.images.all|slice:":4" %}
+                                        <img src="{{ image.image.url }}" alt="{{ mod.name }}" class="mod-thumbnail" onclick="swapImage(this, '{{ image.image.url }}')">
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            <div class="mod-placeholder">Pas d'image</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mod-info">
+                        <h3><a href="{{ mod.get_absolute_url }}">{{ mod.name }}</a></h3>
+                        <p class="mod-author">par <a href="{% url 'accounts:profile' mod.main_author.username %}">{{ mod.main_author.username }}</a></p>
+                        <p class="mod-game">{{ mod.game.name }}</p>
+                        <div class="mod-categories">
+                            {% for category in mod.categories.all %}
+                                <span class="category-tag">{{ category.name }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="mod-stats">
+                            <span class="mod-views">👁 {{ mod.views_count }}</span>
+                            <span class="mod-downloads">⬇ {{ mod.downloads_count }}</span>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% if is_paginated %}
+            <div class="pagination-container">
+                <div class="pagination">
+                    {% if page_obj.has_previous %}
+                        <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_game %}game={{ selected_game }}&{% endif %}{% if selected_category %}category={{ selected_category }}&{% endif %}page=1" class="btn btn-outline">Première</a>
+                        <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_game %}game={{ selected_game }}&{% endif %}{% if selected_category %}category={{ selected_category }}&{% endif %}page={{ page_obj.previous_page_number }}" class="btn btn-outline">Précédente</a>
+                    {% endif %}
+                    <span class="page-info">Page {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+                    {% if page_obj.has_next %}
+                        <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_game %}game={{ selected_game }}&{% endif %}{% if selected_category %}category={{ selected_category }}&{% endif %}page={{ page_obj.next_page_number }}" class="btn btn-outline">Suivante</a>
+                        <a href="?{% if query %}q={{ query }}&{% endif %}{% if selected_game %}game={{ selected_game }}&{% endif %}{% if selected_category %}category={{ selected_category }}&{% endif %}page={{ page_obj.paginator.num_pages }}" class="btn btn-outline">Dernière</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="no-results">
+            {% if query or selected_game or selected_category %}
+                <p>Aucun mod ne correspond à votre recherche.</p>
+                <a href="{% url 'core:search' %}" class="btn btn-secondary">Effacer les filtres</a>
+            {% else %}
+                <p>Utilisez le formulaire ci-dessus pour trouver des mods.</p>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+
+{% block extra_js %}
+<script>
+function swapImage(thumbnail, newSrc) {
+    const mainImage = thumbnail.closest('.mod-card').querySelector('.mod-main-image');
+    const oldSrc = mainImage.src;
+    mainImage.src = newSrc;
+    thumbnail.src = oldSrc;
+}
+</script>
+{% endblock %}
+{% endblock %}

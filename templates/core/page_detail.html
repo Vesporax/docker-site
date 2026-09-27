@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ page.title }} - RoyalMods{% endblock %}
+
+{% block content %}
+<div class="static-page" style="max-width: 800px; margin: 0 auto;">
+    <div class="page-header">
+        <h1>{{ page.title }}</h1>
+    </div>
+
+    <div class="static-page-content" style="line-height: 1.9;">
+        {{ page.content|linebreaks }}
+    </div>
+</div>
+{% endblock %}

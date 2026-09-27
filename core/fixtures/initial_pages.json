@@ -1,0 +1,26 @@
+[
+  {
+    "model": "core.pagetemplate",
+    "pk": 1,
+    "fields": {
+      "title": "À propos",
+      "slug": "about-us",
+      "content": "À propos de RoyalMods\n\nRoyalMods est une plateforme communautaire dédiée au partage de mods pour vos jeux préférés.\n\nNotre mission\n\n[Décrivez ici la mission de votre site.]\n\nL'équipe\n\n[Présentez ici les membres de l'équipe ou le fondateur.]\n\nNous contacter\n\n[Ajoutez ici vos informations de contact ou un lien vers un formulaire.]",
+      "is_active": true,
+      "created_at": "2025-01-01T00:00:00Z",
+      "updated_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "core.pagetemplate",
+    "pk": 2,
+    "fields": {
+      "title": "Conditions d'utilisation",
+      "slug": "terms-of-service",
+      "content": "Conditions d'utilisation\n\nDernière mise à jour : [date]\n\n1. Acceptation des conditions\n\nEn utilisant RoyalMods, vous acceptez les présentes conditions d'utilisation.\n\n2. Contenu uploadé\n\nVous êtes responsable du contenu que vous publiez sur la plateforme. Tout mod publié doit respecter les droits d'auteur des créateurs originaux.\n\n3. Comportement des utilisateurs\n\n[Décrivez ici les règles de comportement attendu.]\n\n4. Limitation de responsabilité\n\n[Ajoutez ici votre clause de limitation de responsabilité.]\n\n5. Contact\n\nPour toute question concernant ces conditions, contactez-nous à : [votre email]",
+      "is_active": true,
+      "created_at": "2025-01-01T00:00:00Z",
+      "updated_at": "2025-01-01T00:00:00Z"
+    }
+  }
+]

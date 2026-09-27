@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Confirmer l'adresse e-mail - RoyalMods{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1>Confirmer votre adresse e-mail</h1>
+            <p>Finalisez votre inscription en confirmant votre adresse e-mail</p>
+        </div>
+
+        {% if confirmation %}
+            <form method="post" class="auth-form">
+                {% csrf_token %}
+                <p>Veuillez confirmer que <strong>{{ confirmation.email_address.email }}</strong> est bien votre adresse e-mail.</p>
+                <button type="submit" class="btn btn-primary btn-full">Confirmer l'adresse e-mail</button>
+            </form>
+        {% else %}
+            <div class="auth-links">
+                <p>Ce lien de confirmation a expiré ou est invalide.</p>
+                <a href="{% url 'account_email' %}" class="btn btn-secondary">Demander un nouveau lien</a>
+            </div>
+        {% endif %}
+
+        <div class="auth-links">
+            <a href="{% url 'core:home' %}">Retour à l'accueil</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

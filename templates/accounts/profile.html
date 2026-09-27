@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ profile_user.username }} - RoyalMods{% endblock %}
+
+{% block content %}
+<div class="profile-page">
+    <div class="profile-header">
+        <h1>Profil de {{ profile_user.username }}</h1>
+        {% if user == profile_user %}
+            <a href="{% url 'accounts:settings' %}" class="btn btn-outline">Modifier le profil</a>
+        {% endif %}
+    </div>
+
+    <!-- Onglets -->
+    <div class="profile-tabs">
+        <button class="tab-button active" onclick="showTab('profile-info', event)">Profil</button>
+        <button class="tab-button" onclick="showTab('uploads', event)">Publications</button>
+    </div>
+
+    <!-- Onglet Profil -->
+    <div id="profile-info" class="tab-content active">
+        <div class="profile-section">
+            <h2>À propos</h2>
+            {% if profile_user.profile.self_presentation %}
+                <p class="user-presentation">{{ profile_user.profile.self_presentation|linebreaks }}</p>
+            {% else %}
+                <p class="no-content">Aucune présentation pour le moment.</p>
+            {% endif %}
+        </div>
+
+        {% if social_links %}
+            <div class="profile-section">
+                <h2>Réseaux sociaux</h2>
+                <div class="social-links">
+                    {% for link in social_links %}
+                        <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="social-link">
+                            <span class="social-icon">
+                                {% if link.platform == 'facebook' %}📘{% elif link.platform == 'youtube' %}📺{% elif link.platform == 'discord' %}💬{% else %}🔗{% endif %}
+                            </span>
+                            {{ link.get_platform_name }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="profile-section">
+            <h2>Informations</h2>
+            <p class="member-since">Membre depuis : {{ profile_user.date_joined|date:"F Y" }}</p>
+            <p class="last-login">Dernière connexion : {{ profile_user.last_login|date:"d M Y" }}</p>
+        </div>
+    </div>
+
+    <!-- Onglet Publications -->
+    <div id="uploads" class="tab-content">
+        <div class="profile-section">
+            <h2>Mods publiés</h2>
+            {% if user_mods %}
+                <div class="mods-grid">
+                    {% for mod in user_mods %}
+                        <div class="mod-card">
+                            <div class="mod-images">
+                                {% if mod.images.first %}
+                                    <img src="{{ mod.images.first.image.url }}" alt="{{ mod.name }}" class="mod-main-image">
+                                {% else %}
+                                    <div class="mod-placeholder">Pas d'image</div>
+                                {% endif %}
+                            </div>
+                            <div class="mod-info">
+                                <h3><a href="{{ mod.get_absolute_url }}">{{ mod.name }}</a></h3>
+                                <p class="mod-game">{{ mod.game.name }}</p>
+                                <div class="mod-stats">
+                                    <span class="mod-views">👁 {{ mod.views_count }}</span>
+                                    <span class="mod-downloads">⬇ {{ mod.downloads_count }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="view-more">
+                    <a href="{% url 'mods:list' %}?author={{ profile_user.username }}" class="btn btn-outline">Voir toutes les publications</a>
+                </div>
+            {% else %}
+                <p class="no-content">Aucun mod publié pour le moment.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+function showTab(tabName, event) {
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+    document.getElementById(tabName).classList.add('active');
+    event.target.classList.add('active');
+}
+</script>
+{% endblock %}

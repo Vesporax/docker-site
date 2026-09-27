@@ -1,0 +1,574 @@
+[
+  {
+    "model": "mods.game",
+    "pk": 1,
+    "fields": {
+      "name": "Farming Simulator 25",
+      "slug": "farming-simulator-25",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Andaineurs",
+      "slug": "andaineurs",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Arracheuses à betteraves",
+      "slug": "arracheuses-a-betteraves",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Arracheuses à patates",
+      "slug": "arracheuses-a-patates",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Autochargeuses",
+      "slug": "autochargeuses",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Barres de coupe",
+      "slug": "barres-de-coupe",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Bâtiments",
+      "slug": "batiments",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Bêcheuses",
+      "slug": "becheuses",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Bennes",
+      "slug": "bennes",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Bétaillères",
+      "slug": "betailleres",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "BTP",
+      "slug": "btp",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Broyeurs",
+      "slug": "broyeurs",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Camions",
+      "slug": "camions",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Charrues",
+      "slug": "charrues",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Chargeurs",
+      "slug": "chargeurs",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Cultivateurs",
+      "slug": "cultivateurs",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Cultures spéciales",
+      "slug": "cultures-speciales",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Cuves à lisier",
+      "slug": "cuves-a-lisier",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Décompacteurs",
+      "slug": "decompacteurs",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Décorations",
+      "slug": "decorations",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Divers",
+      "slug": "divers",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Enclos",
+      "slug": "enclos",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Enrubanneuses",
+      "slug": "enrubanneuses",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Ensileuses",
+      "slug": "ensileuses",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Épandeurs à engrais",
+      "slug": "epandeurs-a-engrais",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Épandeurs à fumier",
+      "slug": "epandeurs-a-fumier",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Faneuses",
+      "slug": "faneuses",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Faucheuses",
+      "slug": "faucheuses",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Forestier",
+      "slug": "forestier",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Herses",
+      "slug": "herses",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Maps",
+      "slug": "maps",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Mélangeuses",
+      "slug": "melangeuses",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Moisson",
+      "slug": "moisson",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Pailleuses",
+      "slug": "pailleuses",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Planteuses",
+      "slug": "planteuses",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Presses carrées",
+      "slug": "presses-carrees",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Presses rondes",
+      "slug": "presses-rondes",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Pulvérisateurs",
+      "slug": "pulverisateurs",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Ramasseurs de pierres",
+      "slug": "ramasseurs-de-pierres",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Récolteuses",
+      "slug": "recolteuses",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Remorques",
+      "slug": "remorques",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Remorques plateau à balles",
+      "slug": "remorques-plateau-a-balles",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Remorques-citernes",
+      "slug": "remorques-citernes",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Rouleaux",
+      "slug": "rouleaux",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Sarcleuses",
+      "slug": "sarcleuses",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Semi-remorques",
+      "slug": "semi-remorques",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Semoirs",
+      "slug": "semoirs",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Tracteurs",
+      "slug": "tracteurs",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Transbordeurs",
+      "slug": "transbordeurs",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Usines",
+      "slug": "usines",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Véhicules divers",
+      "slug": "vehicules-divers",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "mods.category",
+    "fields": {
+      "name": "Voitures",
+      "slug": "voitures",
+      "description": "Placeholder",
+      "icon": null,
+      "banner": null,
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  }
+]

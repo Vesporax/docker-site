@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Téléverser un mod - RoyalMods{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/upload.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <div class="auth-container upload-container">
+        <div class="auth-header">
+            <h1>Téléverser un mod</h1>
+            <p>Partagez votre création avec la communauté</p>
+        </div>
+
+        <form method="post" enctype="multipart/form-data" class="auth-form">
+            {% csrf_token %}
+
+            <!-- Informations de base -->
+            <div class="settings-group">
+                <h2 class="settings-subtitle">Informations générales</h2>
+
+                <div class="form-group">
+                    <label for="id_name">Nom du mod *</label>
+                    <input type="text" name="name" id="id_name" required class="form-input"
+                           placeholder="Entrez le nom de votre mod" value="{{ form.name.value|default:'' }}">
+                    {% if form.name.errors %}
+                        <div class="form-errors">{% for error in form.name.errors %}<span class="error">{{ error }}</span>{% endfor %}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_description">Description *</label>
+                    <textarea name="description" id="id_description" required class="form-input"
+                              rows="6" placeholder="Décrivez votre mod, ses fonctionnalités et toute information importante…">{{ form.description.value|default:'' }}</textarea>
+                    {% if form.description.errors %}
+                        <div class="form-errors">{% for error in form.description.errors %}<span class="error">{{ error }}</span>{% endfor %}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_version">Version *</label>
+                    <input type="text" name="version" id="id_version" required class="form-input"
+                           placeholder="ex : 1.0.0 ou v2.1" value="{{ form.version.value|default:'' }}">
+                    {% if form.version.errors %}
+                        <div class="form-errors">{% for error in form.version.errors %}<span class="error">{{ error }}</span>{% endfor %}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Classification -->
+            <div class="settings-group">
+                <h2 class="settings-subtitle">Classification</h2>
+
+                <div class="form-group">
+                    <label for="id_game">Jeu *</label>
+                    <select name="game" id="id_game" required class="form-select">
+                        <option value="">Sélectionnez un jeu…</option>
+                        {% for game in form.game.field.choices %}
+                            {% if game.0 %}
+                                <option value="{{ game.0 }}" {% if form.game.value == game.0|stringformat:"s" %}selected{% endif %}>
+                                    {{ game.1 }}
+                                </option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    {% if form.game.errors %}
+                        <div class="form-errors">{% for error in form.game.errors %}<span class="error">{{ error }}</span>{% endfor %}</div>
+                    {% endif %}
+                    {% if not form.game.field.choices|length > 1 %}
+                        <small class="form-help" style="color: #ff4757;">Aucun jeu disponible. Contactez un administrateur.</small>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label>Catégories</label>
+                    <div class="checkbox-list">
+                        {% for category in form.categories %}
+                            <label class="checkbox-label">{{ category.tag }} {{ category.choice_label }}</label>
+                        {% empty %}
+                            <small class="form-help">Aucune catégorie disponible.</small>
+                        {% endfor %}
+                    </div>
+                    {% if form.categories.errors %}
+                        <div class="form-errors">{% for error in form.categories.errors %}<span class="error">{{ error }}</span>{% endfor %}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Téléchargement & Dépendances -->
+            <div class="settings-group">
+                <h2 class="settings-subtitle">Téléchargement & Dépendances</h2>
+
+                <div class="form-group">
+                    <label for="id_download_link">Lien de téléchargement *</label>
+                    <input type="url" name="download_link" id="id_download_link" required class="form-input"
+                           placeholder="https://exemple.com/telecharger/votre-mod.zip" value="{{ form.download_link.value|default:'' }}">
+                    <small class="form-help">URL externe où les utilisateurs peuvent télécharger votre mod</small>
+                    {% if form.download_link.errors %}
+                        <div class="form-errors">{% for error in form.download_link.errors %}<span class="error">{{ error }}</span>{% endfor %}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label>Mods requis</label>
+                    <div class="checkbox-list">
+                        {% for mod in form.required_mods %}
+                            <label class="checkbox-label">{{ mod.tag }} {{ mod.choice_label }}</label>
+                        {% empty %}
+                            <small class="form-help">Aucun mod approuvé disponible comme dépendance.</small>
+                        {% endfor %}
+                    </div>
+                    <small class="form-help">Sélectionnez les mods nécessaires au fonctionnement du vôtre</small>
+                </div>
+            </div>
+
+            <!-- Auteurs -->
+            <div class="settings-group">
+                <h2 class="settings-subtitle">Auteurs</h2>
+
+                <div class="form-group">
+                    <label>Co-auteurs</label>
+                    <div class="checkbox-list">
+                        {% for author in form.other_authors %}
+                            <label class="checkbox-label">{{ author.tag }} {{ author.choice_label }}</label>
+                        {% empty %}
+                            <small class="form-help">Aucun autre utilisateur disponible.</small>
+                        {% endfor %}
+                    </div>
+                    <small class="form-help">Vous serez automatiquement ajouté comme auteur principal</small>
+                </div>
+            </div>
+
+            <!-- Images -->
+            <div class="settings-group">
+                <h2 class="settings-subtitle">Images de prévisualisation</h2>
+
+                <div class="form-group">
+                    <label for="id_images">Téléverser des images</label>
+                    <input type="file" name="images" id="id_images" multiple accept="image/png,image/jpeg,image/jpg" class="form-input">
+                    <small class="form-help">
+                        Jusqu'à 6 images (PNG ou JPG). Elles seront redimensionnées automatiquement en 16:9.
+                        La première image sera l'aperçu principal.
+                    </small>
+                    {% if form.images.errors %}
+                        <div class="form-errors">{% for error in form.images.errors %}<span class="error">{{ error }}</span>{% endfor %}</div>
+                    {% endif %}
+                </div>
+
+                <div id="image-preview" class="image-preview-container"></div>
+            </div>
+
+            <!-- Envoi -->
+            <div class="form-group">
+                <div class="upload-alert">
+                    <strong>Note :</strong> Votre mod sera examiné par un administrateur avant d'être visible publiquement.
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Téléverser le mod</button>
+            </div>
+        </form>
+
+        <div class="auth-links">
+            <a href="{% url 'accounts:creator_studio' %}">← Retour au Studio de création</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/upload.js' %}"></script>
+{% endblock %}

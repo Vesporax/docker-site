@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+{% block title %}Inscription - RoyalMods{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1>Rejoindre RoyalMods</h1>
+            <p>Créez votre compte pour commencer à partager des mods</p>
+        </div>
+
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="id_username">Nom d'utilisateur *</label>
+                <input type="text" name="username" id="id_username" required class="form-input"
+                       value="{{ form.username.value|default:'' }}" placeholder="Choisissez un nom d'utilisateur unique">
+                {% if form.username.errors %}
+                    <div class="form-errors">
+                        {% for error in form.username.errors %}
+                            <span class="error">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_email">E-mail *</label>
+                <input type="email" name="email" id="id_email" required class="form-input"
+                       value="{{ form.email.value|default:'' }}" placeholder="votre@email.com">
+                {% if form.email.errors %}
+                    <div class="form-errors">
+                        {% for error in form.email.errors %}
+                            <span class="error">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_password1">Mot de passe *</label>
+                <input type="password" name="password1" id="id_password1" required class="form-input"
+                       placeholder="Créez un mot de passe sécurisé">
+                {% if form.password1.errors %}
+                    <div class="form-errors">
+                        {% for error in form.password1.errors %}
+                            <span class="error">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_password2">Confirmer le mot de passe *</label>
+                <input type="password" name="password2" id="id_password2" required class="form-input"
+                       placeholder="Confirmez votre mot de passe">
+                {% if form.password2.errors %}
+                    <div class="form-errors">
+                        {% for error in form.password2.errors %}
+                            <span class="error">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full">Créer un compte</button>
+        </form>
+
+        <div class="auth-links">
+            <p>Vous avez déjà un compte ? <a href="{% url 'account_login' %}">Se connecter</a></p>
+        </div>
+
+        <div class="social-auth">
+            <div class="divider">
+                <span>ou</span>
+            </div>
+            {% get_providers as socialaccount_providers %}
+            {% if socialaccount_providers %}
+                {% for provider in socialaccount_providers %}
+                    {% if provider.id == "google" %}
+                        <a href="{% provider_login_url provider.id %}" class="btn btn-google">
+                            <span class="google-icon">🔍</span>
+                            Continuer avec Google
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

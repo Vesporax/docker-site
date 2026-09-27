@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Vérifiez votre adresse e-mail - RoyalMods{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1>Vérifiez votre e-mail</h1>
+            <p>Un e-mail de confirmation vous a été envoyé</p>
+        </div>
+
+        <div class="auth-form">
+            <p>Nous vous avons envoyé un e-mail de vérification. Suivez le lien pour finaliser votre inscription.</p>
+            <p>Si vous ne trouvez pas l'e-mail dans votre boîte principale, vérifiez votre dossier spam.</p>
+            <p>Si vous ne recevez rien dans quelques minutes, contactez-nous.</p>
+        </div>
+
+        <div class="auth-links">
+            <a href="{% url 'core:home' %}" class="btn btn-primary btn-full">Retour à l'accueil</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

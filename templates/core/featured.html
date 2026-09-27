@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}En vedette - RoyalMods{% endblock %}
+
+{% block content %}
+<div class="featured-page">
+    <div class="page-header">
+        <h1>Mods en vedette</h1>
+        <p>Les mods les plus populaires de la communauté</p>
+    </div>
+
+    {% if featured_mods %}
+        <div class="mods-grid">
+            {% for mod in featured_mods %}
+                <div class="mod-card">
+                    <div class="mod-images">
+                        {% if mod.images.first %}
+                            <img src="{{ mod.images.first.image.url }}" alt="{{ mod.name }}" class="mod-main-image">
+                            {% if mod.images.count > 1 %}
+                                <div class="mod-thumbnails">
+                                    {% for image in mod.images.all|slice:":4" %}
+                                        <img src="{{ image.image.url }}" alt="{{ mod.name }}" class="mod-thumbnail" onclick="swapImage(this, '{{ image.image.url }}')">
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            <div class="mod-placeholder">Pas d'image</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mod-info">
+                        <h3><a href="{{ mod.get_absolute_url }}">{{ mod.name }}</a></h3>
+                        <p class="mod-author">par <a href="{% url 'accounts:profile' mod.main_author.username %}">{{ mod.main_author.username }}</a></p>
+                        <p class="mod-game">{{ mod.game.name }}</p>
+                        <div class="mod-stats">
+                            <span class="mod-views">👁 {{ mod.views_count }}</span>
+                            <span class="mod-downloads">⬇ {{ mod.downloads_count }}</span>
+                        </div>
+                        <p class="mod-date">{{ mod.created_at|date:"d/m/Y" }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% if is_paginated %}
+            <div class="pagination-container">
+                <div class="pagination">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1" class="btn btn-outline">Première</a>
+                        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline">Précédente</a>
+                    {% endif %}
+                    <span class="page-info">Page {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline">Suivante</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-outline">Dernière</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="no-mods">
+            <p>Aucun mod disponible pour l'instant.</p>
+            {% if user.is_authenticated %}
+                <a href="{% url 'mods:upload' %}" class="btn btn-primary">Publier le premier mod !</a>
+            {% else %}
+                <a href="{% url 'account_signup' %}" class="btn btn-primary">Rejoindre pour publier des mods</a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+
+{% block extra_js %}
+<script>
+function swapImage(thumbnail, newSrc) {
+    const mainImage = thumbnail.closest('.mod-card').querySelector('.mod-main-image');
+    const oldSrc = mainImage.src;
+    mainImage.src = newSrc;
+    thumbnail.src = oldSrc;
+}
+</script>
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Paramètres - RoyalMods{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <div class="auth-container settings-container">
+        <div class="auth-header">
+            <h1>Paramètres du compte</h1>
+            <p>Gérez votre profil et vos préférences</p>
+        </div>
+
+        <div class="settings-nav">
+            <a href="{% url 'accounts:profile' user.username %}" class="btn btn-outline btn-full">
+                👁 Voir mon profil public
+            </a>
+        </div>
+
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+
+            <!-- Informations du compte -->
+            <div class="settings-group">
+                <h2 class="settings-subtitle">Informations du compte</h2>
+
+                <div class="form-group">
+                    <label for="id_username">Nom d'utilisateur</label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <div class="form-errors">
+                            {% for error in form.username.errors %}<span class="error">{{ error }}</span>{% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_email">Adresse e-mail</label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                        <div class="form-errors">
+                            {% for error in form.email.errors %}<span class="error">{{ error }}</span>{% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_first_name">Prénom</label>
+                    {{ form.first_name }}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_last_name">Nom de famille</label>
+                    {{ form.last_name }}
+                </div>
+            </div>
+
+            <!-- Informations du profil -->
+            <div class="settings-group">
+                <h2 class="settings-subtitle">Profil public</h2>
+
+                <div class="form-group">
+                    <label for="id_self_presentation">Présentation</label>
+                    {{ form.self_presentation }}
+                    <small class="form-help">Visible sur votre profil public</small>
+                </div>
+            </div>
+
+            <!-- Réseaux sociaux -->
+            <div class="settings-group">
+                <h2 class="settings-subtitle">Réseaux sociaux</h2>
+
+                <div class="form-group">
+                    <label for="id_facebook_url"><span class="social-icon">📘</span> Facebook / Meta</label>
+                    {{ form.facebook_url }}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_youtube_url"><span class="social-icon">📺</span> YouTube</label>
+                    {{ form.youtube_url }}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_discord_url"><span class="social-icon">💬</span> Discord</label>
+                    {{ form.discord_url }}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_other_url"><span class="social-icon">🔗</span> Autre réseau social</label>
+                    {{ form.other_url }}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_other_display_name">Nom affiché pour l'autre réseau</label>
+                    {{ form.other_display_name }}
+                    <small class="form-help">Obligatoire si vous renseignez un lien "Autre"</small>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full">Enregistrer les modifications</button>
+        </form>
+
+        <div class="auth-links">
+            <h2 class="settings-subtitle">Autres actions</h2>
+            <a href="{% url 'account_change_password' %}">Changer le mot de passe</a>
+            <span class="link-separator">•</span>
+            <a href="{% url 'account_email' %}">Gérer les adresses e-mail</a>
+            <span class="link-separator">•</span>
+            <a href="{% url 'accounts:creator_studio' %}">Studio de création</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

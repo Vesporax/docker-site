@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load royalmods_tags %}
+
+{% block title %}{{ mod.name }} - RoyalMods{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/mod-detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="mod-detail">
+    <!-- En-tête -->
+    <div class="mod-header">
+        <div class="mod-title-row">
+            <h1 class="mod-title">{{ mod.name }}</h1>
+            <div class="mod-actions">
+                {% if user == mod.main_author %}
+                    <a href="{% url 'mods:edit' mod.slug %}" class="btn btn-outline">Modifier le mod</a>
+                {% endif %}
+                {% if user.is_staff %}
+                    <span class="status-indicator {{ mod.status }}">
+                        {{ mod.status|status_fr }}
+                    </span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="mod-meta">
+            <span class="mod-meta-item">
+                <span>👤</span>
+                <a href="{% url 'accounts:profile' mod.main_author.username %}">{{ mod.main_author.username }}</a>
+            </span>
+            <span class="mod-meta-item">
+                <span>🎮</span>
+                <a href="{% url 'mods:by_game' mod.game.slug %}">{{ mod.game.name }}</a>
+            </span>
+            <span class="mod-meta-item">
+                <span>📅</span>
+                {{ mod.created_at|date:"d/m/Y" }}
+            </span>
+            <span class="mod-meta-item">
+                <span>👁</span>
+                {{ mod.views_count }} vue{{ mod.views_count|pluralize }}
+            </span>
+            <span class="mod-meta-item">
+                <span>⬇</span>
+                {{ mod.downloads_count }} téléchargement{{ mod.downloads_count|pluralize }}
+            </span>
+        </div>
+    </div>
+
+    <!-- Carousel d'images -->
+    <div class="mod-carousel">
+        {% if mod.images.exists %}
+            <div class="carousel-main">
+                <img id="carousel-main-image" src="{{ mod.images.first.image.url }}" alt="{{ mod.name }}">
+                {% if mod.images.count > 1 %}
+                    <button class="carousel-nav prev">‹</button>
+                    <button class="carousel-nav next">›</button>
+                {% endif %}
+            </div>
+            {% if mod.images.count > 1 %}
+                <div class="carousel-thumbnails">
+                    {% for image in mod.images.all %}
+                        <div class="carousel-thumbnail {% if forloop.first %}active{% endif %}">
+                            <img src="{{ image.image.url }}" alt="Aperçu {{ forloop.counter }}">
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="no-images-placeholder">
+                Aucune image de prévisualisation disponible
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Grille de contenu -->
+    <div class="mod-content-grid">
+        <!-- Contenu principal -->
+        <div class="mod-main-content">
+            <h2>Description</h2>
+            <div class="mod-description">{{ mod.description }}</div>
+
+            {% if mod.required_mods.exists %}
+                <h3>Mods requis</h3>
+                <div class="dependencies-list">
+                    {% for required_mod in mod.required_mods.all %}
+                        <a href="{{ required_mod.get_absolute_url }}" class="dependency-link">
+                            <span>{{ required_mod.name }}</span>
+                            <span class="dependency-arrow">→</span>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Barre latérale -->
+        <div class="mod-sidebar">
+            <!-- Téléchargement -->
+            <div class="sidebar-card">
+                <a href="{% url 'mods:download' mod.slug %}" class="download-btn" target="_blank" rel="noopener noreferrer">
+                    <span class="download-icon">⬇</span>
+                    Télécharger le mod
+                </a>
+            </div>
+
+            <!-- Informations -->
+            <div class="sidebar-card">
+                <h3>Informations</h3>
+                <ul class="info-list">
+                    <li>
+                        <span class="info-label">Version</span>
+                        <span class="info-value">{{ mod.version }}</span>
+                    </li>
+                    <li>
+                        <span class="info-label">Jeu</span>
+                        <span class="info-value">
+                            <a href="{% url 'mods:by_game' mod.game.slug %}">{{ mod.game.name }}</a>
+                        </span>
+                    </li>
+                    <li>
+                        <span class="info-label">Publié le</span>
+                        <span class="info-value">{{ mod.created_at|date:"d/m/Y" }}</span>
+                    </li>
+                    {% if mod.updated_at != mod.created_at %}
+                    <li>
+                        <span class="info-label">Mis à jour le</span>
+                        <span class="info-value">{{ mod.updated_at|date:"d/m/Y" }}</span>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+
+            <!-- Catégories -->
+            {% if mod.categories.exists %}
+                <div class="sidebar-card">
+                    <h3>Catégories</h3>
+                    <div class="categories-list">
+                        {% for category in mod.categories.all %}
+                            <a href="{% url 'mods:by_category' category.slug %}" class="category-badge">
+                                {{ category.name }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Auteurs -->
+            <div class="sidebar-card">
+                <h3>Auteurs</h3>
+                <div class="authors-list">
+                    <a href="{% url 'accounts:profile' mod.main_author.username %}" class="author-link">
+                        <span>{{ mod.main_author.username }}</span>
+                        <span class="author-role">Auteur principal</span>
+                    </a>
+                    {% for author in mod.other_authors.all %}
+                        <a href="{% url 'accounts:profile' author.username %}" class="author-link">
+                            <span>{{ author.username }}</span>
+                            <span class="author-role">Co-auteur</span>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/mod-detail.js' %}"></script>
+{% endblock %}
