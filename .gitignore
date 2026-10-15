@@ -1,7 +1,6 @@
 .env
 category_mapping.json
 .devcontainer/
-static/
 staticfiles/
 media/
 **/__pycache__/
