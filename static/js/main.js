@@ -21,13 +21,10 @@ document.addEventListener('DOMContentLoaded', function() {
 function initializeTheme() {
     const body = document.getElementById('body');
     const savedTheme = localStorage.getItem('theme');
+    const theme = (savedTheme === 'light-mode') ? 'light-mode' : 'dark-mode';
 
-    if (savedTheme) {
-        body.className = savedTheme;
-    } else {
-        body.className = 'dark-mode';
-        localStorage.setItem('theme', 'dark-mode');
-    }
+    body.className = theme;
+    localStorage.setItem('theme', theme);
 
     updateToggleButton();
 }
@@ -107,3 +104,9 @@ function swapImage(thumbnail, newSrc) {
         thumbnail.src = oldSrc;
     }
 }
+
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        initializeTheme();
+    }
+});

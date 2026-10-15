@@ -13,7 +13,13 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% block extra_css %}{% endblock %}
 </head>
-<body class="dark-mode" id="body">
+<body id="body">
+    <script>
+        (function() {
+            var saved = localStorage.getItem('theme');
+            document.getElementById('body').className = (saved === 'light-mode') ? 'light-mode' : 'dark-mode';
+        })();
+    </script>
     <!-- En-tête -->
     <header class="header">
         <div class="container">
