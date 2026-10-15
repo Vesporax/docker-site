@@ -202,8 +202,8 @@
     gap: 10px;
     width: 100%;
     padding: 15px;
-    background-color: #28a745;
-    color: white;
+    background-color: #ffd700;
+    color: #000;
     text-decoration: none;
     border-radius: 8px;
     font-size: 1.1rem;
@@ -212,8 +212,24 @@
 }
 
 .download-btn:hover {
-    background-color: #218838;
-    color: white;
+    background-color: #e6c200;
+    color: #000;
+}
+
+.light-mode .download-btn {
+    background-color: #ff6600;
+    color: #fff;
+}
+
+.light-mode .download-btn:hover {
+    background-color: #e65c00;
+    color: #fff;
+}
+
+.dark-mode a.download-btn,
+.dark-mode a.download-btn:visited,
+.dark-mode a.download-btn:hover {
+    color: #000;
 }
 
 .download-icon {
@@ -312,6 +328,12 @@
 .light-mode .category-badge {
     background-color: #ff6600;
     color: #fff;
+}
+
+.dark-mode a.category-badge,
+.dark-mode a.category-badge:visited,
+.dark-mode a.category-badge:hover {
+    color: #000;
 }
 
 /* Dependencies */

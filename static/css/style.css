@@ -211,12 +211,23 @@ body {
     color: #000;
 }
 
+.light-mode a.btn-primary,
+.light-mode a.btn-primary:visited,
+.light-mode a.btn-primary:hover {
+    color: #000;
+}
+
 .btn-primary:hover {
     background-color: #ffed4a;
 }
 
 .btn-secondary {
     background-color: #6c757d;
+    color: #fff;
+}
+
+.dark-mode a.btn-secondary, .dark-mode a.btn-secondary:visited, .dark-mode a.btn-secondary:hover,
+.light-mode a.btn-secondary, .light-mode a.btn-secondary:visited, .light-mode a.btn-secondary:hover {
     color: #fff;
 }
 
@@ -259,6 +270,11 @@ body {
 
 .btn-google:hover {
     background-color: #3367d6;
+    color: #fff;
+}
+
+.dark-mode a.btn-google, .dark-mode a.btn-google:visited, .dark-mode a.btn-google:hover,
+.light-mode a.btn-google, .light-mode a.btn-google:visited, .light-mode a.btn-google:hover {
     color: #fff;
 }
 
