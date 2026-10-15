@@ -77,14 +77,6 @@ function setupImageCarousels() {
         const thumbnails = card.querySelectorAll('.mod-thumbnail');
 
         if (mainImage && thumbnails.length > 0) {
-            let currentIndex = 0;
-            const images = [mainImage.src, ...Array.from(thumbnails).map(thumb => thumb.src)];
-
-            mainImage.addEventListener('click', function() {
-                currentIndex = (currentIndex + 1) % images.length;
-                mainImage.src = images[currentIndex];
-            });
-
             thumbnails.forEach(function(thumbnail, index) {
                 thumbnail.addEventListener('click', function() {
                     const oldSrc = mainImage.src;

@@ -14,17 +14,19 @@
             {% for mod in mods %}
                 <div class="mod-card">
                     <div class="mod-images">
-                        {% if mod.images.first %}
-                            <img src="{{ mod.images.first.image.url }}" alt="{{ mod.name }}" class="mod-main-image">
-                            {% if mod.images.count > 1 %}
-                                <div class="mod-thumbnails">
-                                    {% for image in mod.images.all|slice:":4" %}
-                                        <img src="{{ image.image.url }}" alt="{{ mod.name }}" class="mod-thumbnail" onclick="swapImage(this, '{{ image.image.url }}')">
-                                    {% endfor %}
-                                </div>
+                        <a href="{{ mod.get_absolute_url }}" class="mod-banner-link">
+                            {% if mod.images.first %}
+                                <img src="{{ mod.images.first.image.url }}" alt="{{ mod.name }}" class="mod-main-image">
+                            {% else %}
+                                <div class="mod-placeholder">Pas d'image</div>
                             {% endif %}
-                        {% else %}
-                            <div class="mod-placeholder">Pas d'image</div>
+                        </a>
+                        {% if mod.images.first and mod.images.count > 1 %}
+                            <div class="mod-thumbnails">
+                                {% for image in mod.images.all|slice:":4" %}
+                                    <img src="{{ image.image.url }}" alt="{{ mod.name }}" class="mod-thumbnail" onclick="swapImage(this, '{{ image.image.url }}')">
+                                {% endfor %}
+                            </div>
                         {% endif %}
                     </div>
 

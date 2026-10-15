@@ -490,6 +490,10 @@ textarea.form-input:focus {
     position: relative;
 }
 
+.mod-banner-link {
+    display: block;
+}
+
 .mod-main-image {
     width: 100%;
     height: 200px;
