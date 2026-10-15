@@ -96,7 +96,7 @@ body {
 }
 
 .logo {
-    height: 40px;
+    height: 80px;
     width: auto;
 }
 
@@ -1042,10 +1042,6 @@ textarea.form-input:focus {
     .navbar {
         flex-direction: column;
         gap: 15px;
-    }
-    
-    .navbar-brand a span {
-        display: none;
     }
     
     .navbar-brand {
