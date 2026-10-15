@@ -13,8 +13,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 300);
         }, 5000);
     });
-
-    setupImageCarousels();
     setupThemeToggle();
 });
 
@@ -69,32 +67,13 @@ function updateToggleButton() {
     }
 }
 
-function setupImageCarousels() {
-    const modCards = document.querySelectorAll('.mod-card');
-
-    modCards.forEach(function(card) {
-        const mainImage = card.querySelector('.mod-main-image');
-        const thumbnails = card.querySelectorAll('.mod-thumbnail');
-
-        if (mainImage && thumbnails.length > 0) {
-            thumbnails.forEach(function(thumbnail, index) {
-                thumbnail.addEventListener('click', function() {
-                    const oldSrc = mainImage.src;
-                    mainImage.src = thumbnail.src;
-                    thumbnail.src = oldSrc;
-                });
-            });
-        }
-    });
-}
-
-function swapImage(thumbnail, newSrc) {
-    const mainImage = thumbnail.closest('.mod-card').querySelector('.mod-main-image');
-    if (mainImage) {
-        const oldSrc = mainImage.src;
-        mainImage.src = newSrc;
-        thumbnail.src = oldSrc;
-    }
+function swapImage(thumbnail) {
+    const card = thumbnail.closest('.mod-card');
+    const mainImage = card && card.querySelector('.mod-main-image');
+    if (!mainImage) return;
+    const mainSrc = mainImage.src;
+    mainImage.src = thumbnail.src;
+    thumbnail.src = mainSrc;
 }
 
 window.addEventListener('pageshow', function(event) {

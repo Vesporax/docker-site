@@ -56,19 +56,21 @@
             {% for mod in search_results %}
                 <div class="mod-card">
                     <div class="mod-images">
-                        {% if mod.images.first %}
-                            <img src="{{ mod.images.first.image.url }}" alt="{{ mod.name }}" class="mod-main-image">
-                            {% if mod.images.count > 1 %}
-                                <div class="mod-thumbnails">
-                                    {% for image in mod.images.all|slice:":4" %}
-                                        <img src="{{ image.image.url }}" alt="{{ mod.name }}" class="mod-thumbnail" onclick="swapImage(this, '{{ image.image.url }}')">
-                                    {% endfor %}
-                                </div>
+                        <a href="{{ mod.get_absolute_url }}" class="mod-banner-link">
+                            {% if mod.images.first %}
+                                <img src="{{ mod.images.first.image.url }}" alt="{{ mod.name }}" class="mod-main-image">
+                            {% else %}
+                                <div class="mod-placeholder">Pas d'image</div>
                             {% endif %}
-                        {% else %}
-                            <div class="mod-placeholder">Pas d'image</div>
+                        </a>
+                        {% if mod.images.first and mod.images.count > 1 %}
+                            <div class="mod-thumbnails">
+                                {% for image in mod.images.all|slice:"1:5" %}
+                                    <img src="{{ image.image.url }}" alt="{{ mod.name }}" class="mod-thumbnail" onclick="swapImage(this)">
+                                {% endfor %}
+                            </div>
                         {% endif %}
-                    </div>
+                        </div>
 
                     <div class="mod-info">
                         <h3><a href="{{ mod.get_absolute_url }}">{{ mod.name }}</a></h3>
@@ -114,15 +116,4 @@
         </div>
     {% endif %}
 </div>
-
-{% block extra_js %}
-<script>
-function swapImage(thumbnail, newSrc) {
-    const mainImage = thumbnail.closest('.mod-card').querySelector('.mod-main-image');
-    const oldSrc = mainImage.src;
-    mainImage.src = newSrc;
-    thumbnail.src = oldSrc;
-}
-</script>
-{% endblock %}
 {% endblock %}
