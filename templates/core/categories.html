@@ -12,6 +12,13 @@
     margin-bottom: 2rem;
 }
 
+.accordion-controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
 .category-accordion-item {
     border: 1px solid #444;
     border-radius: 8px;
@@ -202,6 +209,10 @@
     </div>
 
     {% if categories %}
+        <div class="accordion-controls">
+            <button type="button" class="btn btn-outline btn-small" id="expand-all">Tout déplier</button>
+            <button type="button" class="btn btn-outline btn-small" id="collapse-all">Tout replier</button>
+        </div>
         <div class="categories-list">
             {% for category in categories %}
                 <div class="category-accordion-item">
@@ -265,19 +276,23 @@
 {% block extra_js %}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.category-accordion-header').forEach(function (header) {
-        header.addEventListener('click', function () {
-            var item = header.closest('.category-accordion-item');
-            var isActive = item.classList.contains('active');
+    var items = document.querySelectorAll('.category-accordion-item');
 
-            document.querySelectorAll('.category-accordion-item.active').forEach(function (openItem) {
-                if (openItem !== item) openItem.classList.remove('active');
-            });
+    function setItem(item, open) {
+        item.classList.toggle('active', open);
+        item.querySelector('.category-accordion-header').setAttribute('aria-expanded', String(open));
+    }
 
-            item.classList.toggle('active', !isActive);
-            header.setAttribute('aria-expanded', String(!isActive));
+    items.forEach(function (item) {
+        item.querySelector('.category-accordion-header').addEventListener('click', function () {
+            setItem(item, !item.classList.contains('active'));
         });
     });
+
+    var expandAll = document.getElementById('expand-all');
+    var collapseAll = document.getElementById('collapse-all');
+    if (expandAll) expandAll.addEventListener('click', function () { items.forEach(function (i) { setItem(i, true); }); });
+    if (collapseAll) collapseAll.addEventListener('click', function () { items.forEach(function (i) { setItem(i, false); }); });
 });
 </script>
 {% endblock %}
